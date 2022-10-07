@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 // mudar essa requisição api para um arquivo separado
 
@@ -50,69 +50,71 @@ class Game extends Component {
     console.log(results);
 
     return (
-      // o header tem que ser renderizado aqui
-      <div>
-        {/* {results.map((result, index) => (
+      <>
+        <Header { ...this.props } />
+        <div>
+          {/* {results.map((result, index) => (
           <div key={ index }>
-            <h2 data-testid="question-category">{ result.category }</h2>
-            <p data-testid="question-text">{ result.question }</p>
-            <div data-testid="answer-options">
-              <button type="button" data-testid="correct-answer">
-                { result.correct_answer }
-              </button>
-              { result.incorrect_answers.map((answer, iBtn) => (
-                <button type="button" key={ iBtn } data-testid="incorrect-answer">
+          <h2 data-testid="question-category">{ result.category }</h2>
+          <p data-testid="question-text">{ result.question }</p>
+          <div data-testid="answer-options">
+          <button type="button" data-testid="correct-answer">
+          { result.correct_answer }
+          </button>
+          { result.incorrect_answers.map((answer, iBtn) => (
+            <button type="button" key={ iBtn } data-testid="incorrect-answer">
                   { answer }
-                </button>
-              )) }
-            </div>
-          </div>
-        ))} */}
-        {results.map((result, index) => {
-          const respostas = [result.correct_answer, ...result.incorrect_answers].sort();
-          // console.log('sem sort', respostas);
-          // console.log('com sort', respostas.sort());
-          /*
-          array = 5
-          array[0] = science - 1
-          botao > array[0 + 1] // array[1] - geography
+                  </button>
+                  )) }
+                  </div>
+                  </div>
+                ))} */}
+          {results.map((result, index) => {
+            const respostas = [result.correct_answer, ...result.incorrect_answers].sort();
+            // console.log('sem sort', respostas);
+            // console.log('com sort', respostas.sort());
+            /*
+            array = 5
+            array[0] = science - 1
+            botao > array[0 + 1] // array[1] - geography
 
-          let acc = 0;
-          array[acc];
-          botao => acc += 1;
+            let acc = 0;
+            array[acc];
+            botao => acc += 1;
 
-          */
-          return (
+            */
+            return (
 
-            <div key={ index }>
-              <h2 data-testid="question-category">{result.category}</h2>
-              <p data-testid="question-text">{result.question}</p>
-              <div data-testid="answer-options">
-                { respostas
-                  .map((resposta, iResp) => (resposta === result.correct_answer ? (
-                    <button
-                      key={ iResp }
-                      type="button"
-                      data-testid="correct-answer"
-                    >
-                      { resposta }
+              <div key={ index }>
+                <h2 data-testid="question-category">{result.category}</h2>
+                <p data-testid="question-text">{result.question}</p>
+                <div data-testid="answer-options">
+                  {respostas
+                    .map((resposta, iResp) => (resposta === result.correct_answer ? (
+                      <button
+                        key={ iResp }
+                        type="button"
+                        data-testid="correct-answer"
+                      >
+                        {resposta}
 
-                    </button>
-                  ) : (
-                    <button
-                      key={ iResp }
-                      type="button"
-                      data-testid="incorrect-answer"
-                    >
-                      {resposta}
+                      </button>
+                    ) : (
+                      <button
+                        key={ iResp }
+                        type="button"
+                        data-testid="incorrect-answer"
+                      >
+                        {resposta}
 
-                    </button>
-                  ))) }
+                      </button>
+                    )))}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </>
     );
   }
 }

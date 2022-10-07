@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
-export class Header extends Component {
+class Header extends Component {
   render() {
     const { userInfo: { name, gravatarEmail } } = this.props;
     const emailHash = md5(gravatarEmail).toString();
