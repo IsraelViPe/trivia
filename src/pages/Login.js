@@ -1,7 +1,9 @@
 import React from 'react';
 import '../App.css';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
+import { addUserInfo } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -15,10 +17,29 @@ class Login extends React.Component {
     });
   };
 
+  handleClick = () => {
+    const { dispatch, history } = this.props;
+    dispatch(addUserInfo(this.state));
+    history.push('/games');
+  };
+
+  handleClickSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   render() {
     const { name, email } = this.state;
     return (
       <div className="App">
+        <button
+          data-testid="btn-settings"
+          type="button"
+          onClick={ this.handleClickSettings }
+        >
+          Settings
+
+        </button>
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
           <label htmlFor="name">
@@ -44,6 +65,7 @@ class Login extends React.Component {
             />
           </label>
           <button
+            onClick={ this.handleClick }
             disabled={ !name || !email }
             data-testid="btn-play"
             type="button"
@@ -58,3 +80,10 @@ class Login extends React.Component {
 }
 
 export default connect()(Login);
+
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
