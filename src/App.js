@@ -6,6 +6,8 @@ import Games from './pages/Games';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
 
+
+
 class App extends React.Component {
   state = { };
 
