@@ -71,6 +71,7 @@ class Game extends Component {
                 ))} */}
           {results.map((result, index) => {
             const respostas = [result.correct_answer, ...result.incorrect_answers].sort();
+            console.log(respostas);
             // console.log('sem sort', respostas);
             // console.log('com sort', respostas.sort());
             /*

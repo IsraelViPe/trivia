@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import '../App.css';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 import fetchAPI from '../services/fetchAPI';
 import addLocalStorage from '../services/localStorage';
 import { addUserInfo } from '../redux/actions';
-
+import '../App.css';
 
 class Login extends React.Component {
   state = {
@@ -24,22 +22,20 @@ class Login extends React.Component {
   };
 
   handleChange = ({ target: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    }, this.handleLogin);
+    this.setState(
+      {
+        [name]: value,
+      },
+      this.handleLogin,
+    );
   };
 
   handlePlay = async () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const { token } = await fetchAPI();
+    dispatch(addUserInfo(this.state));
     addLocalStorage(token);
     history.push('/game');
-  };
-
-  handleClick = () => {
-    const { dispatch, history } = this.props;
-    dispatch(addUserInfo(this.state));
-    history.push('/games');
   };
 
   handleClickSettings = () => {
@@ -57,7 +53,6 @@ class Login extends React.Component {
           onClick={ this.handleClickSettings }
         >
           Settings
-
         </button>
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
@@ -98,14 +93,13 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
- nome: PropTypes.string,
- email: PropTypes.string,
- dispatch: PropTypes.func.isRequired,
- history: PropTypes.shape({
+  nome: PropTypes.string,
+  email: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-   isDisabled: PropTypes.bool.isRequired,
-}.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+}.isRequired;
+
 export default connect()(Login);
-
-
