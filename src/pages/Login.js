@@ -47,13 +47,6 @@ class Login extends React.Component {
     const { name, email, isDisabled } = this.state;
     return (
       <div className="App">
-        <button
-          data-testid="btn-settings"
-          type="button"
-          onClick={ this.handleClickSettings }
-        >
-          Settings
-        </button>
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
           <label htmlFor="name">
@@ -78,14 +71,23 @@ class Login extends React.Component {
               value={ email }
             />
           </label>
-          <button
-            onClick={ this.handlePlay }
-            disabled={ isDisabled }
-            data-testid="btn-play"
-            type="button"
-          >
-            Play
-          </button>
+          <span>
+            <button
+              onClick={ this.handlePlay }
+              disabled={ isDisabled }
+              data-testid="btn-play"
+              type="button"
+            >
+              Play
+            </button>
+            <button
+              data-testid="btn-settings"
+              type="button"
+              onClick={ this.handleClickSettings }
+            >
+              Settings
+            </button>
+          </span>
         </header>
       </div>
     );

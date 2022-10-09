@@ -7,7 +7,6 @@ class Header extends Component {
   render() {
     const { userInfo: { name, gravatarEmail } } = this.props;
     const emailHash = md5(gravatarEmail).toString();
-    console.log(gravatarEmail, emailHash);
     return (
       <div>
         <div>
