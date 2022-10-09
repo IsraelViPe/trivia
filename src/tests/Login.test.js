@@ -24,7 +24,7 @@ describe('if Login renders inputs fields', () => {
 		expect(input).toBeInTheDocument();
 	});
 	it('check if name and email are typped corectly on inputs', () => {
-		renderWithRouterAndRedux(<App />, { initialEntries: ['/'] });
+		renderWithRouterAndRedux(<App />);
 		const inputEmail = screen.getByRole('textbox', {
 			name: /email/i,
 		});
@@ -39,7 +39,7 @@ describe('if Login renders inputs fields', () => {
 		expect(inputName.value).toBe('Fulaninho');
 	});
 	it('checks if redirect works', async () => {
-		const { history } = renderWithRouterAndRedux(<App />);
+		renderWithRouterAndRedux(<App />);
 
 		const btn = screen.getByRole('button', { name: /play/i });
 		expect(btn).toBeInTheDocument();
@@ -56,10 +56,7 @@ describe('if Login renders inputs fields', () => {
 		expect(picture).toBeInTheDocument();
 	});
 	it('clicks on settings and redirect to /settings', () => {
-		const { history } = renderWithRouterAndRedux(<App />, {
-			initialEntries: ['/'],
-		});
-
+		const { history } = renderWithRouterAndRedux(<App />);
 		const btn = screen.getByRole('button', {
 			name: /settings/i,
 		});
