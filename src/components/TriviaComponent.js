@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const de = require('he');
-
 class TriviaComponent extends React.Component {
   render() {
     const { respostas, category, question, result } = this.props;
+    // console.log(respostas);
+    // console.log(category);
+    // console.log(question);
+    // console.log(result);
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
-        <p data-testid="question-text">{de.decode(question)}</p>
+        <p data-testid="question-text">{question}</p>
         <div data-testid="answer-options">
           {respostas.map(
             (resposta, iResp) => (resposta === result.correct_answer ? (

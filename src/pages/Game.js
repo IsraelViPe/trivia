@@ -7,6 +7,9 @@ import { URL_TOKEN, requestAPI } from '../services/index';
 class Game extends Component {
   state = {
     results: [],
+    indexAnswer: 1,
+    isLoading: true,
+
   };
 
   componentDidMount() {
@@ -31,20 +34,60 @@ class Game extends Component {
       localStorage.removeItem('token');
       history.push('/');
     }
+    console.log(response);
     requestAPI(URL_QUESTIONS)
       .then(({ results }) => {
-        this.setState({ results });
+        this.setState({ results }, () => {
+          this.setState({
+            isLoading: false,
+          });
+        });
       });
   };
 
+  handleRenderTriviaComponent = () => {
+    const { isLoading, results, indexAnswer } = this.state;
+    if (!isLoading) {
+      const singleQuestion = results[indexAnswer];
+      const num = 0.5;
+      const respostas = [singleQuestion.correct_answer,
+        ...singleQuestion.incorrect_answers].sort(
+        () => Math.random() - num,
+      );
+      return respostas;
+    }
+  };
+
   render() {
-    const { results } = this.state;
+    const { results, indexAnswer, isLoading } = this.state;
+    const singleQuestion = results[indexAnswer];
+    console.log(results);
+    if (!isLoading) console.log(singleQuestion.correct_answer);
+    // const num = 0.5;
+    // const respostas = [singleQuestion.correct_answer,
+    //   ...singleQuestion.incorrect_answers].sort(
+    //   () => Math.random() - num,
+    // );
+    // if (isLoading) {
+    //   <p>Carregando...</p>;
+    // }
+    const test = this.handleRenderTriviaComponent();
+
     return (
       <>
         <Header { ...this.props } />
 
         <div>
-          {results.map((result, index) => {
+          {/* {Object.values(singleQuestion.correct_answer)} */}
+          { !isLoading && (
+            <TriviaComponent
+              question={ singleQuestion.question }
+              category={ singleQuestion.category }
+              result={ singleQuestion }
+              respostas={ test }
+            />
+          )}
+          {/* {results.map((result, index) => {
             const num = 0.5;
             const respostas = [result.correct_answer, ...result.incorrect_answers].sort(
               () => Math.random() - num,
@@ -60,7 +103,7 @@ class Game extends Component {
                 />
               </div>
             );
-          })}
+          })} */}
         </div>
       </>
     );
