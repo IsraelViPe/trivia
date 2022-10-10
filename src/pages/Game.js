@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-
-// mudar essa requisição api para um arquivo separado
-
-const URL_TOKEN = 'https://opentdb.com/api_token.php?command=request';
-
-const requestAPI = async (endpoint) => {
-  try {
-    const request = await fetch(endpoint);
-    return await request.json();
-  } catch (e) {
-    throw new Error(e);
-  }
-};
+import TriviaComponent from '../components/TriviaComponent';
+import { URL_TOKEN, requestAPI } from '../services/index';
 
 class Game extends Component {
   state = {
     results: [],
+    indexAnswer: 0,
+    isLoading: true,
+
   };
 
   componentDidMount() {
@@ -35,85 +27,83 @@ class Game extends Component {
   getQuestions = async () => {
     const token = await this.getToken();
     const URL_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
+
+    const response = await requestAPI(URL_QUESTIONS);
+    if (response.response_code !== 0) {
+      const { history } = this.props;
+      localStorage.removeItem('token');
+      history.push('/');
+    }
+    console.log(response);
     requestAPI(URL_QUESTIONS)
       .then(({ results }) => {
-        this.setState({ results });
+        this.setState({ results }, () => {
+          this.setState({
+            isLoading: false,
+          });
+        });
       });
   };
 
-  /*
-    Object.concat(result.correct_answer + result.incorrect_answers.map())
-  */
+  handleRenderTriviaComponent = () => {
+    const { isLoading, results, indexAnswer } = this.state;
+    if (!isLoading) {
+      const singleQuestion = results[indexAnswer];
+      const num = 0.5;
+      const respostas = [singleQuestion.correct_answer,
+        ...singleQuestion.incorrect_answers].sort(
+        () => Math.random() - num,
+      );
+      return respostas;
+    }
+  };
 
   render() {
-    const { results } = this.state;
+    const { results, indexAnswer, isLoading } = this.state;
+    const singleQuestion = results[indexAnswer];
     console.log(results);
+    if (!isLoading) console.log(singleQuestion.correct_answer);
+    // const num = 0.5;
+    // const respostas = [singleQuestion.correct_answer,
+    //   ...singleQuestion.incorrect_answers].sort(
+    //   () => Math.random() - num,
+    // );
+    // if (isLoading) {
+    //   <p>Carregando...</p>;
+    // }
+    const test = this.handleRenderTriviaComponent();
 
     return (
       <>
         <Header { ...this.props } />
+
         <div>
-          {/* {results.map((result, index) => (
-          <div key={ index }>
-          <h2 data-testid="question-category">{ result.category }</h2>
-          <p data-testid="question-text">{ result.question }</p>
-          <div data-testid="answer-options">
-          <button type="button" data-testid="correct-answer">
-          { result.correct_answer }
-          </button>
-          { result.incorrect_answers.map((answer, iBtn) => (
-            <button type="button" key={ iBtn } data-testid="incorrect-answer">
-                  { answer }
-                  </button>
-                  )) }
-                  </div>
-                  </div>
-                ))} */}
-          {results.map((result, index) => {
-            const respostas = [result.correct_answer, ...result.incorrect_answers].sort();
-            console.log(respostas);
-            // console.log('sem sort', respostas);
-            // console.log('com sort', respostas.sort());
-            /*
-            array = 5
-            array[0] = science - 1
-            botao > array[0 + 1] // array[1] - geography
+          {/* {Object.values(singleQuestion.correct_answer)} */}
+          { !isLoading && (
+            <TriviaComponent
+              question={ singleQuestion.question }
+              category={ singleQuestion.category }
+              result={ singleQuestion }
+              respostas={ test }
+            />
+          )}
+          {/* {results.map((result, index) => {
+            const num = 0.5;
+            const respostas = [result.correct_answer, ...result.incorrect_answers].sort(
+              () => Math.random() - num,
+            );
 
-            let acc = 0;
-            array[acc];
-            botao => acc += 1;
-
-            */
             return (
-
               <div key={ index }>
-                <h2 data-testid="question-category">{result.category}</h2>
-                <p data-testid="question-text">{result.question}</p>
-                <div data-testid="answer-options">
-                  {respostas
-                    .map((resposta, iResp) => (resposta === result.correct_answer ? (
-                      <button
-                        key={ iResp }
-                        type="button"
-                        data-testid="correct-answer"
-                      >
-                        {resposta}
-
-                      </button>
-                    ) : (
-                      <button
-                        key={ iResp }
-                        type="button"
-                        data-testid="incorrect-answer"
-                      >
-                        {resposta}
-
-                      </button>
-                    )))}
-                </div>
+                <TriviaComponent
+                  respostas={ respostas }
+                  category={ result.category }
+                  question={ result.question }
+                  result={ result }
+                />
               </div>
             );
-          })}
+          })} */}
         </div>
       </>
     );

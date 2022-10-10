@@ -24,7 +24,7 @@ describe('if Login renders inputs fields', () => {
 		expect(input).toBeInTheDocument();
 	});
 	it('check if name and email are typped corectly on inputs', () => {
-		renderWithRouterAndRedux(<App />, { initialEntries: ['/'] });
+		renderWithRouterAndRedux(<App />);
 		const inputEmail = screen.getByRole('textbox', {
 			name: /email/i,
 		});
@@ -38,29 +38,8 @@ describe('if Login renders inputs fields', () => {
 		userEvent.type(inputName, 'Fulaninho');
 		expect(inputName.value).toBe('Fulaninho');
 	});
-	// it('checks if redirect works', async () => {
-	// 	const { history } = renderWithRouterAndRedux(<Login />, {
-	// 		initialEntries: ['/'],
-	// 	});
-
-	// 	const btn = screen.getByRole('button', { name: /play/i });
-	// 	expect(btn).toBeInTheDocument();
-	// 	const inputEmail = screen.getByRole('textbox', {
-	// 		name: /email/i,
-	// 	});
-	// 	const inputName = screen.getByRole('textbox', {
-	// 		name: /nome/i,
-	// 	});
-	// 	userEvent.type(inputEmail, 'teste@teste.com');
-	// 	userEvent.type(inputName, 'Fulaninho');
-	// 	userEvent.click(btn);
-	// 	// const picture = screen.getByRole('img');
-	// 	// console.log(history);
-	// 	// expect(picture).toBeInTheDocument();
-	// 	expect(history.location.pathname).toBe('/game');
-	// });
 	it('checks if redirect works', async () => {
-		const { history } = renderWithRouterAndRedux(<App />);
+		renderWithRouterAndRedux(<App />);
 
 		const btn = screen.getByRole('button', { name: /play/i });
 		expect(btn).toBeInTheDocument();
@@ -76,11 +55,8 @@ describe('if Login renders inputs fields', () => {
 		const picture = screen.getByRole('img');
 		expect(picture).toBeInTheDocument();
 	});
-	it('teste', () => {
-		const { history } = renderWithRouterAndRedux(<App />, {
-			initialEntries: ['/'],
-		});
-
+	it('clicks on settings and redirect to /settings', () => {
+		const { history } = renderWithRouterAndRedux(<App />);
 		const btn = screen.getByRole('button', {
 			name: /settings/i,
 		});
@@ -90,7 +66,7 @@ describe('if Login renders inputs fields', () => {
 		expect(history.location.pathname).toBe('/settings');
 	});
 
-	it('teste2', async () => {
+	it('clicks on play and redirects to /game', async () => {
 		const { history } = renderWithRouterAndRedux(<App />);
 
 		const btn = screen.getByRole('button', { name: /play/i });
@@ -105,7 +81,6 @@ describe('if Login renders inputs fields', () => {
 		userEvent.type(inputName, 'Fulaninho');
 		userEvent.click(btn);
 		await waitFor(() => {
-			console.log(history);
 			const picture = screen.getByRole('img');
 			expect(picture).toBeInTheDocument();
       expect(history.location.pathname).toBe('/game')
