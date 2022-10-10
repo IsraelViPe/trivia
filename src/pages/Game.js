@@ -7,7 +7,7 @@ import { URL_TOKEN, requestAPI } from '../services/index';
 class Game extends Component {
   state = {
     results: [],
-    indexAnswer: 1,
+    indexAnswer: 0,
     isLoading: true,
 
   };
