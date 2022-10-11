@@ -9,10 +9,15 @@ import { getRespApi } from '../redux/actions';
 class Game extends Component {
   state = {
     isLoading: true,
+    timer: 30,
+    randomicAnswers: [],
+    isBtnDisabled: false,
+    id: 0,
   };
 
-  componentDidMount() {
-    this.getQuestions();
+  async componentDidMount() {
+    await this.getQuestions();
+    this.countdownTimer();
   }
 
   getToken = () => requestAPI(URL_TOKEN).then((data) => {
@@ -23,6 +28,21 @@ class Game extends Component {
     history.push('/');
   });
 
+  countdownTimer = () => {
+    const time = 1000;
+    const interval = setInterval(() => {
+      const { timer } = this.state;
+      this.setState({
+        timer: timer - 1,
+      }, () => {
+        if (timer === 1) {
+          clearInterval(interval);
+          this.setState({ isBtnDisabled: true });
+        }
+      });
+    }, time);
+  };
+
   getQuestions = async () => {
     const { dispatch } = this.props;
     const token = await this.getToken();
@@ -30,60 +50,75 @@ class Game extends Component {
 
     const response = await requestAPI(URL_QUESTIONS);
     dispatch(getRespApi(response));
+
+    this.setState(null, this.handleRenderTriviaComponent);
     if (response.response_code !== 0) {
       const { history } = this.props;
       localStorage.removeItem('token');
       history.push('/');
     }
-    requestAPI(URL_QUESTIONS);
-    // .then(({ results }) => {
-    // this.setState({ results }, () => {
+
     this.setState({
       isLoading: false,
     });
-    // });
-    // });
+  };
+
+  randomizeAnswers = (arr = []) => {
+    const num = 0.5;
+    return arr.slice().sort(
+      () => Math.random() - num,
+    );
   };
 
   handleRenderTriviaComponent = () => {
-    const { isLoading } = this.state;
+    const { isLoading, id } = this.state;
     const { getApi } = this.props;
 
     if (!isLoading) {
       const api = getApi.results;
-      const index = getApi.indexAnswer;
-      const singleQuestion = api[index];
+      const singleQuestion = api[id];
 
-      const num = 0.5;
       const respostas = [singleQuestion.correct_answer,
-        ...singleQuestion.incorrect_answers].sort(
-        () => Math.random() - num,
-      );
-      return respostas;
+        ...singleQuestion.incorrect_answers];
+      this.setState({
+        randomicAnswers: this.randomizeAnswers(respostas),
+      });
     }
   };
 
+  nextQuestion = () => {
+    const { id } = this.state;
+    console.log(id);
+    this.setState({
+      id: id + 1,
+    });
+  };
+
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, timer, isBtnDisabled, randomicAnswers, id } = this.state;
     const { getApi } = this.props;
     const api = getApi.results;
-    const index = getApi.indexAnswer;
-    const singleQuestion = api[index];
-
-    const test = this.handleRenderTriviaComponent();
+    const singleQuestion = api[id];
 
     return (
       <>
         <Header { ...this.props } />
 
         <div>
+          <p>
+            {timer}
+            {' '}
+            segundos restantes.
+          </p>
           { !isLoading && (
             <TriviaComponent
               handleClickAnswer={ this.handleClickAnswer }
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
-              respostas={ test }
+              respostas={ randomicAnswers }
+              isDisabled={ isBtnDisabled }
+              nextClick={ this.nextQuestion }
             />
           )}
 

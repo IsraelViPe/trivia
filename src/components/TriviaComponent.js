@@ -15,7 +15,7 @@ class TriviaComponent extends React.Component {
   };
 
   render() {
-    const { respostas, category, question, result } = this.props;
+    const { respostas, category, question, result, isDisabled, nextClick } = this.props;
     const { respondido } = this.state;
     return (
       <div>
@@ -25,26 +25,39 @@ class TriviaComponent extends React.Component {
           {respostas.map(
             (resposta, iResp) => (resposta === result.correct_answer ? (
               <button
+                disabled={ isDisabled }
                 onClick={ this.handleClickAnswer }
                 className={ respondido ? 'correct-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid="correct-answer"
               >
-                {resposta}
+
+                {de.decode(resposta)}
               </button>
             ) : (
               <button
+                disabled={ isDisabled }
                 onClick={ this.handleClickAnswer }
                 className={ respondido ? 'wrong-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }
               >
-                {resposta}
+                {de.decode(resposta)}
               </button>
             )),
           )}
+          {respondido
+            && (
+              <button
+                data-testid="btn-next"
+                type="button"
+                onClick={ nextClick }
+              >
+                Next
+              </button>
+            )}
         </div>
       </div>
 
@@ -52,12 +65,13 @@ class TriviaComponent extends React.Component {
   }
 }
 TriviaComponent.propTypes = {
-  // handleClickAnswer: PropTypes.func.isRequired,
   respostas: PropTypes.arrayOf(PropTypes.string).isRequired,
   category: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
   result: PropTypes.shape({
     correct_answer: PropTypes.string.isRequired,
   }).isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  nextClick: PropTypes.func.isRequired,
 };
 export default TriviaComponent;
