@@ -15,7 +15,7 @@ class TriviaComponent extends React.Component {
   };
 
   render() {
-    const { respostas, category, question, result } = this.props;
+    const { respostas, category, question, result, isDisabled } = this.props;
     const { respondido } = this.state;
     return (
       <div>
@@ -25,6 +25,7 @@ class TriviaComponent extends React.Component {
           {respostas.map(
             (resposta, iResp) => (resposta === result.correct_answer ? (
               <button
+                disabled={ isDisabled }
                 onClick={ this.handleClickAnswer }
                 className={ respondido ? 'correct-answer' : undefined }
                 key={ iResp }
@@ -35,6 +36,7 @@ class TriviaComponent extends React.Component {
               </button>
             ) : (
               <button
+                disabled={ isDisabled }
                 onClick={ this.handleClickAnswer }
                 className={ respondido ? 'wrong-answer' : undefined }
                 key={ iResp }
@@ -59,5 +61,6 @@ TriviaComponent.propTypes = {
   result: PropTypes.shape({
     correct_answer: PropTypes.string.isRequired,
   }).isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 };
 export default TriviaComponent;
