@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const de = require('he');
+
 class TriviaComponent extends React.Component {
   state = {
     respondido: false,
@@ -18,13 +20,13 @@ class TriviaComponent extends React.Component {
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
-        <p data-testid="question-text">{question}</p>
+        <p data-testid="question-text">{de.decode(question)}</p>
         <div data-testid="answer-options">
           {respostas.map(
             (resposta, iResp) => (resposta === result.correct_answer ? (
               <button
                 onClick={ this.handleClickAnswer }
-                className={ respondido ? 'correct-answer' : null }
+                className={ respondido ? 'correct-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid="correct-answer"
@@ -34,7 +36,7 @@ class TriviaComponent extends React.Component {
             ) : (
               <button
                 onClick={ this.handleClickAnswer }
-                className={ respondido ? 'wrong-answer' : null }
+                className={ respondido ? 'wrong-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }

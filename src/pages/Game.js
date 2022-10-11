@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import TriviaComponent from '../components/TriviaComponent';
 import { URL_TOKEN, requestAPI } from '../services/index';
+import { getRespApi } from '../redux/actions';
 
 class Game extends Component {
   state = {
-    results: [],
-    indexAnswer: 0,
     isLoading: true,
-
   };
 
   componentDidMount() {
@@ -25,30 +24,36 @@ class Game extends Component {
   });
 
   getQuestions = async () => {
+    const { dispatch } = this.props;
     const token = await this.getToken();
     const URL_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
 
     const response = await requestAPI(URL_QUESTIONS);
+    dispatch(getRespApi(response));
     if (response.response_code !== 0) {
       const { history } = this.props;
       localStorage.removeItem('token');
       history.push('/');
     }
-    console.log(response);
-    requestAPI(URL_QUESTIONS)
-      .then(({ results }) => {
-        this.setState({ results }, () => {
-          this.setState({
-            isLoading: false,
-          });
-        });
-      });
+    requestAPI(URL_QUESTIONS);
+    // .then(({ results }) => {
+    // this.setState({ results }, () => {
+    this.setState({
+      isLoading: false,
+    });
+    // });
+    // });
   };
 
   handleRenderTriviaComponent = () => {
-    const { isLoading, results, indexAnswer } = this.state;
+    const { isLoading } = this.state;
+    const { getApi } = this.props;
+
     if (!isLoading) {
-      const singleQuestion = results[indexAnswer];
+      const api = getApi.results;
+      const index = getApi.indexAnswer;
+      const singleQuestion = api[index];
+
       const num = 0.5;
       const respostas = [singleQuestion.correct_answer,
         ...singleQuestion.incorrect_answers].sort(
@@ -59,18 +64,12 @@ class Game extends Component {
   };
 
   render() {
-    const { results, indexAnswer, isLoading } = this.state;
-    const singleQuestion = results[indexAnswer];
-    console.log(results);
-    if (!isLoading) console.log(singleQuestion.correct_answer);
-    // const num = 0.5;
-    // const respostas = [singleQuestion.correct_answer,
-    //   ...singleQuestion.incorrect_answers].sort(
-    //   () => Math.random() - num,
-    // );
-    // if (isLoading) {
-    //   <p>Carregando...</p>;
-    // }
+    const { isLoading } = this.state;
+    const { getApi } = this.props;
+    const api = getApi.results;
+    const index = getApi.indexAnswer;
+    const singleQuestion = api[index];
+
     const test = this.handleRenderTriviaComponent();
 
     return (
@@ -78,40 +77,35 @@ class Game extends Component {
         <Header { ...this.props } />
 
         <div>
-          {/* {Object.values(singleQuestion.correct_answer)} */}
           { !isLoading && (
             <TriviaComponent
+              handleClickAnswer={ this.handleClickAnswer }
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
               respostas={ test }
             />
           )}
-          {/* {results.map((result, index) => {
-            const num = 0.5;
-            const respostas = [result.correct_answer, ...result.incorrect_answers].sort(
-              () => Math.random() - num,
-            );
 
-            return (
-              <div key={ index }>
-                <TriviaComponent
-                  respostas={ respostas }
-                  category={ result.category }
-                  question={ result.question }
-                  result={ result }
-                />
-              </div>
-            );
-          })} */}
         </div>
       </>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  getApi: state.game,
+  player: state.player,
+});
+
 Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  getApi: PropTypes.shape({
+    results: PropTypes.shape({}).isRequired,
+    indexAnswer: PropTypes.shape({}).isRequired,
+  }).isRequired,
+
 };
 
-export default Game;
+export default connect(mapStateToProps)(Game);
