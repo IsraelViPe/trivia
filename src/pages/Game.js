@@ -86,7 +86,6 @@ class Game extends Component {
               respostas={ test }
             />
           )}
-
         </div>
       </>
     );
