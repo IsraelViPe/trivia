@@ -32,6 +32,7 @@ class TriviaComponent extends React.Component {
                 type="button"
                 data-testid="correct-answer"
               >
+
                 {de.decode(resposta)}
               </button>
             ) : (

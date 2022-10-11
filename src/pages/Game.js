@@ -108,7 +108,7 @@ class Game extends Component {
           <p>
             {timer}
             {' '}
-            segundos restantes
+            segundos restantes.
           </p>
           { !isLoading && (
             <TriviaComponent
