@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { addScore } from '../redux/actions';
+
 const de = require('he');
 
 class TriviaComponent extends React.Component {
@@ -8,10 +11,26 @@ class TriviaComponent extends React.Component {
     respondido: false,
   };
 
-  handleClickAnswer = () => {
+  handleClickAnswer = ({ target: { id } }) => {
+    const { result, timer, dispatchScore } = this.props;
+    const { difficulty } = result;
+    const POINT = 10;
+
+    const difficultyNumber = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+
     this.setState({
       respondido: true,
     });
+
+    if (id === 'correct') {
+      dispatchScore(POINT + (timer + difficultyNumber[difficulty]));
+    } else {
+      console.log('ERRRRROU');
+    }
   };
 
   render() {
@@ -28,6 +47,7 @@ class TriviaComponent extends React.Component {
                 disabled={ isDisabled }
                 onClick={ this.handleClickAnswer }
                 className={ respondido ? 'correct-answer' : undefined }
+                id="correct"
                 key={ iResp }
                 type="button"
                 data-testid="correct-answer"
@@ -40,6 +60,7 @@ class TriviaComponent extends React.Component {
                 disabled={ isDisabled }
                 onClick={ this.handleClickAnswer }
                 className={ respondido ? 'wrong-answer' : undefined }
+                id="incorrect"
                 key={ iResp }
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }
@@ -64,14 +85,23 @@ class TriviaComponent extends React.Component {
     );
   }
 }
+
 TriviaComponent.propTypes = {
   respostas: PropTypes.arrayOf(PropTypes.string).isRequired,
   category: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
   result: PropTypes.shape({
+    difficulty: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
   nextClick: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
+  dispatchScore: PropTypes.func.isRequired,
 };
-export default TriviaComponent;
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchScore: (score) => dispatch(addScore(score)),
+});
+
+export default connect(null, mapDispatchToProps)(TriviaComponent);
