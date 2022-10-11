@@ -121,7 +121,6 @@ class Game extends Component {
               nextClick={ this.nextQuestion }
             />
           )}
-
         </div>
       </>
     );
