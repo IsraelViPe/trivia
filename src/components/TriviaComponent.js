@@ -15,7 +15,7 @@ class TriviaComponent extends React.Component {
   };
 
   render() {
-    const { respostas, category, question, result, isDisabled, nextClick } = this.props;
+    const { respostas, category, question, result, isDisabled } = this.props;
     const { respondido } = this.state;
     return (
       <div>
@@ -32,7 +32,7 @@ class TriviaComponent extends React.Component {
                 type="button"
                 data-testid="correct-answer"
               >
-                {de.decode(resposta)}
+                {resposta}
               </button>
             ) : (
               <button
@@ -43,20 +43,10 @@ class TriviaComponent extends React.Component {
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }
               >
-                {de.decode(resposta)}
+                {resposta}
               </button>
             )),
           )}
-          {respondido
-            && (
-              <button
-                data-testid="btn-next"
-                type="button"
-                onClick={ nextClick }
-              >
-                Next
-              </button>
-            )}
         </div>
       </div>
 
@@ -64,6 +54,7 @@ class TriviaComponent extends React.Component {
   }
 }
 TriviaComponent.propTypes = {
+  // handleClickAnswer: PropTypes.func.isRequired,
   respostas: PropTypes.arrayOf(PropTypes.string).isRequired,
   category: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
@@ -71,6 +62,5 @@ TriviaComponent.propTypes = {
     correct_answer: PropTypes.string.isRequired,
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  nextClick: PropTypes.func.isRequired,
 };
 export default TriviaComponent;
