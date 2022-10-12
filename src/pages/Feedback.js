@@ -11,7 +11,6 @@ class Feedback extends Component {
 
   render() {
     const { acertos, score } = this.props;
-    console.log(score);
     const ACERTO_MIN = 3;
     return (
       <main>

@@ -10,14 +10,11 @@ import Timer from '../components/Timer';
 class Game extends Component {
   state = {
     isLoading: true,
-    // randomicAnswers: [],
-    // isBtnDisabled: false,
     id: 0,
   };
 
   async componentDidMount() {
     await this.getQuestions();
-    // this.countdownTimer();
   }
 
   getToken = () => requestAPI(URL_TOKEN).then((data) => {
@@ -28,21 +25,6 @@ class Game extends Component {
     history.push('/');
   });
 
-  // countdownTimer = () => {
-  //   const time = 1000;
-  //   const interval = setInterval(() => {
-  //     const { timer } = this.state;
-  //     this.setState({
-  //       timer: timer - 1,
-  //     }, () => {
-  //       if (timer === 1) {
-  //         clearInterval(interval);
-  //         this.setState({ isBtnDisabled: true });
-  //       }
-  //     });
-  //   }, time);
-  // };
-
   getQuestions = async () => {
     const { dispatch } = this.props;
     const token = await this.getToken();
@@ -51,7 +33,7 @@ class Game extends Component {
     const response = await requestAPI(URL_QUESTIONS);
     dispatch(getRespApi(response));
 
-    this.setState(null, this.handleRenderTriviaComponent);
+    // this.setState(null, this.handleRenderTriviaComponent);
     if (response.response_code !== 0) {
       const { history } = this.props;
       localStorage.removeItem('token');
@@ -80,10 +62,8 @@ class Game extends Component {
 
       const respostas = [singleQuestion.correct_answer,
         ...singleQuestion.incorrect_answers];
-      // this.setState({
-      //   randomicAnswers: this.randomizeAnswers(respostas),
-      // });
-      return this.randomizeAnswers(respostas);
+      const randomRespostas = this.randomizeAnswers(respostas);
+      return randomRespostas;
     }
   };
 
@@ -105,16 +85,17 @@ class Game extends Component {
 
   render() {
     const { isLoading, id } = this.state;
-    const { getApi, answered, isDesable } = this.props;
+    const { getApi, answered, isDesable, timer } = this.props;
     const api = getApi.results;
     const singleQuestion = api[id];
+    const respostas = this.handleRenderTriviaComponent();
     return (
       <>
         <Header { ...this.props } />
 
         <div>
           <p>
-            {!answered && <Timer />}
+            {!answered && !isLoading && <Timer />}
           </p>
           { !isLoading && (
             <TriviaComponent
@@ -123,10 +104,10 @@ class Game extends Component {
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
-              respostas={ this.handleRenderTriviaComponent() }
+              respostas={ respostas }
               isDisabled={ isDesable }
               nextClick={ this.nextQuestion }
-              // timer={ timer }
+              timer={ timer }
             />
           )}
         </div>
@@ -140,9 +121,11 @@ const mapStateToProps = (state) => ({
   player: state.player,
   answered: state.game.answered,
   isDesable: state.game.isDesable,
+  timer: state.game.timer,
 });
 
 Game.propTypes = {
+  timer: PropTypes.number.isRequired,
   isDesable: PropTypes.bool.isRequired,
   answered: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,

@@ -10,6 +10,7 @@ class TriviaComponent extends React.Component {
   render() {
     const { respostas, category, question, result,
       isDisabled, nextClick, answered, handleClickAnswer } = this.props;
+    console.log('renderizou o Trivia');
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
