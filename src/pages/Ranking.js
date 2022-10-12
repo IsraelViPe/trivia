@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import addLocalStorage from '../services/localStorage';
 
 class Ranking extends Component {
   state = {

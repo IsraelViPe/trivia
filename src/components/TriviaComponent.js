@@ -7,35 +7,6 @@ import { addScore } from '../redux/actions';
 const de = require('he');
 
 class TriviaComponent extends React.Component {
-<<<<<<< HEAD
-=======
-  state = {
-    respondido: false,
-  };
-
-  handleClickAnswer = ({ target: { id } }) => {
-    const { result, timer, dispatchScore } = this.props;
-    const { difficulty } = result;
-    const POINT = 10;
-
-    const difficultyNumber = {
-      easy: 1,
-      medium: 2,
-      hard: 3,
-    };
-
-    this.setState({
-      respondido: true,
-    });
-
-    if (id === 'correct') {
-      dispatchScore(POINT + (timer + difficultyNumber[difficulty]));
-    } else {
-      console.log('ERRRRROU');
-    }
-  };
-
->>>>>>> main-group-27
   render() {
     const { respostas, category, question, result,
       isDisabled, nextClick, answered, handleClickAnswer } = this.props;
@@ -48,14 +19,8 @@ class TriviaComponent extends React.Component {
             (resposta, iResp) => (resposta === result.correct_answer ? (
               <button
                 disabled={ isDisabled }
-<<<<<<< HEAD
                 onClick={ handleClickAnswer }
                 className={ answered ? 'correct-answer' : undefined }
-=======
-                onClick={ this.handleClickAnswer }
-                className={ respondido ? 'correct-answer' : undefined }
-                id="correct"
->>>>>>> main-group-27
                 key={ iResp }
                 type="button"
                 data-testid="correct-answer"
@@ -66,14 +31,8 @@ class TriviaComponent extends React.Component {
             ) : (
               <button
                 disabled={ isDisabled }
-<<<<<<< HEAD
                 onClick={ handleClickAnswer }
                 className={ answered ? 'wrong-answer' : undefined }
-=======
-                onClick={ this.handleClickAnswer }
-                className={ respondido ? 'wrong-answer' : undefined }
-                id="incorrect"
->>>>>>> main-group-27
                 key={ iResp }
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }
@@ -111,8 +70,8 @@ TriviaComponent.propTypes = {
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
   nextClick: PropTypes.func.isRequired,
-  timer: PropTypes.number.isRequired,
-  dispatchScore: PropTypes.func.isRequired,
+  // timer: PropTypes.number.isRequired,
+  // dispatchScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

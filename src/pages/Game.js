@@ -121,11 +121,8 @@ class Game extends Component {
           </p>
           { !isLoading && (
             <TriviaComponent
-<<<<<<< HEAD
               handleClickAnswer={ this.handleClickAnswer }
               answered={ answered }
-=======
->>>>>>> main-group-27
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
