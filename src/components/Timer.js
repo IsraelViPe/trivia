@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { clickAnswer, desableButton } from '../redux/actions';
+import { clickAnswer, desableButton, saveTimer } from '../redux/actions';
 
 const miliSecond = 1000;
 
@@ -28,6 +28,9 @@ class Timer extends Component {
   }
 
   componentWillUnmount() {
+    const { timer } = this.state;
+    const { dispatch } = this.props;
+    dispatch(saveTimer(timer));
     clearInterval(this.interval);
   }
 

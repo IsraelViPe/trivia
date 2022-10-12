@@ -10,3 +10,4 @@ export const ADD_SCORE = 'ADD_SCORE';
 export const SET_ACERTO = 'SET_ACERTO';
 
 export const DESABLE_BUTTON = 'DESABLE_BUTTON';
+export const SAVE_TIMER = 'SAVE_TIMER';

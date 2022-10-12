@@ -1,5 +1,6 @@
 import { REQ_API, CLICK_ANSWER, CLICK_NEXT,
-  DESABLE_BUTTON } from '../actions/actionTypes';
+  DESABLE_BUTTON,
+  SAVE_TIMER } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   results: [],
@@ -28,6 +29,10 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   case DESABLE_BUTTON:
     return {
       ...state, isDesable: true,
+    };
+  case SAVE_TIMER:
+    return {
+      ...state, timer: action.timer,
     };
   default:
     return state;

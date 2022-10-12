@@ -108,7 +108,6 @@ class Game extends Component {
     const { getApi, answered, isDesable } = this.props;
     const api = getApi.results;
     const singleQuestion = api[id];
-
     return (
       <>
         <Header { ...this.props } />
