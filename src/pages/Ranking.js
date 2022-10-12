@@ -10,7 +10,6 @@ class Ranking extends Component {
 
   componentDidMount() {
     const { ranking } = this.props;
-    console.log(ranking);
     const { name, score, gravatarEmail } = ranking;
     const storageRanking = {
       name,
@@ -21,7 +20,7 @@ class Ranking extends Component {
       localRanking: [...prevState.localRanking, storageRanking],
     }), () => {
       const { localRanking } = this.state;
-      addLocalStorage('ranking', JSON.stringify(localRanking));
+      localStorage.setItem('ranking', JSON.stringify(localRanking));
     });
   }
 

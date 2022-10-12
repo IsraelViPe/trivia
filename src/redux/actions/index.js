@@ -4,6 +4,7 @@ import {
   REQ_API,
   CLICK_ANSWER,
   CLICK_NEXT,
+  DESABLE_BUTTON,
 } from './actionTypes';
 
 export const addUserInfo = (payload) => ({
@@ -32,4 +33,8 @@ export const clickNext = () => ({
 export const addScore = (score) => ({
   type: ADD_SCORE,
   score,
+});
+
+export const desableButton = () => ({
+  type: DESABLE_BUTTON,
 });

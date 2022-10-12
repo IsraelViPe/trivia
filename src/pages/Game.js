@@ -5,19 +5,19 @@ import Header from '../components/Header';
 import TriviaComponent from '../components/TriviaComponent';
 import { URL_TOKEN, requestAPI } from '../services/index';
 import { getRespApi, clickAnswer, clickNext } from '../redux/actions';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   state = {
     isLoading: true,
-    timer: 30,
     // randomicAnswers: [],
-    isBtnDisabled: false,
+    // isBtnDisabled: false,
     id: 0,
   };
 
   async componentDidMount() {
     await this.getQuestions();
-    this.countdownTimer();
+    // this.countdownTimer();
   }
 
   getToken = () => requestAPI(URL_TOKEN).then((data) => {
@@ -28,20 +28,20 @@ class Game extends Component {
     history.push('/');
   });
 
-  countdownTimer = () => {
-    const time = 1000;
-    const interval = setInterval(() => {
-      const { timer } = this.state;
-      this.setState({
-        timer: timer - 1,
-      }, () => {
-        if (timer === 1) {
-          clearInterval(interval);
-          this.setState({ isBtnDisabled: true });
-        }
-      });
-    }, time);
-  };
+  // countdownTimer = () => {
+  //   const time = 1000;
+  //   const interval = setInterval(() => {
+  //     const { timer } = this.state;
+  //     this.setState({
+  //       timer: timer - 1,
+  //     }, () => {
+  //       if (timer === 1) {
+  //         clearInterval(interval);
+  //         this.setState({ isBtnDisabled: true });
+  //       }
+  //     });
+  //   }, time);
+  // };
 
   getQuestions = async () => {
     const { dispatch } = this.props;
@@ -104,8 +104,8 @@ class Game extends Component {
   };
 
   render() {
-    const { isLoading, timer, isBtnDisabled, id } = this.state;
-    const { getApi, answered } = this.props;
+    const { isLoading, id } = this.state;
+    const { getApi, answered, isDesable } = this.props;
     const api = getApi.results;
     const singleQuestion = api[id];
 
@@ -115,9 +115,7 @@ class Game extends Component {
 
         <div>
           <p>
-            {timer}
-            {' '}
-            segundos restantes.
+            {!answered && <Timer />}
           </p>
           { !isLoading && (
             <TriviaComponent
@@ -127,9 +125,9 @@ class Game extends Component {
               category={ singleQuestion.category }
               result={ singleQuestion }
               respostas={ this.handleRenderTriviaComponent() }
-              isDisabled={ isBtnDisabled }
+              isDisabled={ isDesable }
               nextClick={ this.nextQuestion }
-              timer={ timer }
+              // timer={ timer }
             />
           )}
         </div>
@@ -142,9 +140,11 @@ const mapStateToProps = (state) => ({
   getApi: state.game,
   player: state.player,
   answered: state.game.answered,
+  isDesable: state.game.isDesable,
 });
 
 Game.propTypes = {
+  isDesable: PropTypes.bool.isRequired,
   answered: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   dispatch: PropTypes.func.isRequired,

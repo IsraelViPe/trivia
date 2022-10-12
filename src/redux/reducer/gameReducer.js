@@ -1,10 +1,13 @@
-import { REQ_API, CLICK_ANSWER, CLICK_NEXT } from '../actions/actionTypes';
+import { REQ_API, CLICK_ANSWER, CLICK_NEXT,
+  DESABLE_BUTTON } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   results: [],
   indexAnswer: 0,
   isLoading: true,
   answered: false,
+  timer: '',
+  isDesable: false,
 };
 
 const gameReducer = (state = INITIAL_STATE, action) => {
@@ -18,7 +21,13 @@ const gameReducer = (state = INITIAL_STATE, action) => {
     };
   case CLICK_NEXT:
     return {
-      ...state, answered: false,
+      ...state,
+      answered: false,
+      isDesable: false,
+    };
+  case DESABLE_BUTTON:
+    return {
+      ...state, isDesable: true,
     };
   default:
     return state;

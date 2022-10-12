@@ -67,23 +67,23 @@ describe('if Login renders inputs fields', () => {
 	});
 
 	it('clicks on play and redirects to /game', async () => {
-	// 	const { history } = renderWithRouterAndRedux(<App />);
+		const { history } = renderWithRouterAndRedux(<App />);
 
-	// 	const btn = screen.getByRole('button', { name: /play/i });
-	// 	expect(btn).toBeInTheDocument();
-	// 	const inputEmail = screen.getByRole('textbox', {
-	// 		name: /email/i,
-	// 	});
-	// 	const inputName = screen.getByRole('textbox', {
-	// 		name: /nome/i,
-	// 	});
-	// 	userEvent.type(inputEmail, 'teste@teste.com');
-	// 	userEvent.type(inputName, 'Fulaninho');
-	// 	userEvent.click(btn);
-	// 	await waitFor(() => {
-	// 		const picture = screen.getByRole('img');
-	// 		expect(picture).toBeInTheDocument();
-    //   expect(history.location.pathname).toBe('/game')
-	// 	});
+		const btn = screen.getByRole('button', { name: /play/i });
+		expect(btn).toBeInTheDocument();
+		const inputEmail = screen.getByRole('textbox', {
+			name: /email/i,
+		});
+		const inputName = screen.getByRole('textbox', {
+			name: /nome/i,
+		});
+		userEvent.type(inputEmail, 'teste@teste.com');
+		userEvent.type(inputName, 'Fulaninho');
+		userEvent.click(btn);
+		await waitFor(() => {
+			const picture = screen.getByRole('img');
+			expect(picture).toBeInTheDocument();
+      expect(history.location.pathname).toBe('/game')
+		});
 	});
 });
