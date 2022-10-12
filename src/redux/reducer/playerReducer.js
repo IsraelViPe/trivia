@@ -1,7 +1,4 @@
-import { ADD_USER_INFO, SET_ACERTO } from '../actions/actionTypes';
-
-import { ADD_USER_INFO, ADD_SCORE } from '../actions/actionTypes';
-
+import { ADD_USER_INFO, ADD_SCORE, SET_ACERTO } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -25,7 +22,6 @@ const playerReducer = (state = INITIAL_STATE, action) => {
       ...state,
       acerto: action.acerto + state.acerto,
     };
-
 
   case ADD_SCORE: return {
     ...state,
