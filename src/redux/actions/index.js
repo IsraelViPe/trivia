@@ -1,4 +1,10 @@
-import { ADD_USER_INFO, REQ_API, SET_ACERTO, ADD_SCORE } from './actionTypes';
+import {
+  ADD_SCORE,
+  ADD_USER_INFO,
+  REQ_API,
+  CLICK_ANSWER,
+  CLICK_NEXT,
+} from './actionTypes';
 
 export const addUserInfo = (payload) => ({
   type: ADD_USER_INFO,
@@ -15,9 +21,12 @@ export const actionGenerica = (payload, type) => ({
   payload,
 });
 
-export const setAcerto = (acerto) => ({
-  type: SET_ACERTO,
-  acerto,
+export const clickAnswer = () => ({
+  type: CLICK_ANSWER,
+});
+
+export const clickNext = () => ({
+  type: CLICK_NEXT,
 });
 
 export const addScore = (score) => ({

@@ -3,7 +3,7 @@ import { ADD_USER_INFO, ADD_SCORE, SET_ACERTO } from '../actions/actionTypes';
 const INITIAL_STATE = {
   name: '',
   assertions: '',
-  score: 0,
+  score: 30,
   gravatarEmail: '',
   acerto: 0,
 };

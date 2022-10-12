@@ -7,35 +7,9 @@ import { addScore } from '../redux/actions';
 const de = require('he');
 
 class TriviaComponent extends React.Component {
-  state = {
-    respondido: false,
-  };
-
-  handleClickAnswer = ({ target: { id } }) => {
-    const { result, timer, dispatchScore } = this.props;
-    const { difficulty } = result;
-    const POINT = 10;
-
-    const difficultyNumber = {
-      easy: 1,
-      medium: 2,
-      hard: 3,
-    };
-
-    this.setState({
-      respondido: true,
-    });
-
-    if (id === 'correct') {
-      dispatchScore(POINT + (timer + difficultyNumber[difficulty]));
-    } else {
-      console.log('ERRRRROU');
-    }
-  };
-
   render() {
-    const { respostas, category, question, result, isDisabled, nextClick } = this.props;
-    const { respondido } = this.state;
+    const { respostas, category, question, result,
+      isDisabled, nextClick, answered, handleClickAnswer } = this.props;
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
@@ -45,9 +19,8 @@ class TriviaComponent extends React.Component {
             (resposta, iResp) => (resposta === result.correct_answer ? (
               <button
                 disabled={ isDisabled }
-                onClick={ this.handleClickAnswer }
-                className={ respondido ? 'correct-answer' : undefined }
-                id="correct"
+                onClick={ handleClickAnswer }
+                className={ answered ? 'correct-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid="correct-answer"
@@ -58,9 +31,8 @@ class TriviaComponent extends React.Component {
             ) : (
               <button
                 disabled={ isDisabled }
-                onClick={ this.handleClickAnswer }
-                className={ respondido ? 'wrong-answer' : undefined }
-                id="incorrect"
+                onClick={ handleClickAnswer }
+                className={ answered ? 'wrong-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }
@@ -69,7 +41,7 @@ class TriviaComponent extends React.Component {
               </button>
             )),
           )}
-          {respondido
+          {answered
             && (
               <button
                 data-testid="btn-next"
@@ -87,6 +59,8 @@ class TriviaComponent extends React.Component {
 }
 
 TriviaComponent.propTypes = {
+  handleClickAnswer: PropTypes.func.isRequired,
+  answered: PropTypes.bool.isRequired,
   respostas: PropTypes.arrayOf(PropTypes.string).isRequired,
   category: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
@@ -96,8 +70,8 @@ TriviaComponent.propTypes = {
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
   nextClick: PropTypes.func.isRequired,
-  timer: PropTypes.number.isRequired,
-  dispatchScore: PropTypes.func.isRequired,
+  // timer: PropTypes.number.isRequired,
+  // dispatchScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

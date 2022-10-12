@@ -1,4 +1,4 @@
-import { REQ_API } from '../actions/actionTypes';
+import { REQ_API, CLICK_ANSWER, CLICK_NEXT } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   results: [],
@@ -12,6 +12,14 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   case REQ_API: {
     return { ...state, results: action.payload.results };
   }
+  case CLICK_ANSWER:
+    return {
+      ...state, answered: true,
+    };
+  case CLICK_NEXT:
+    return {
+      ...state, answered: false,
+    };
   default:
     return state;
   }

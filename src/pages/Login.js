@@ -34,7 +34,7 @@ class Login extends React.Component {
     const { history, dispatch } = this.props;
     const { token } = await fetchAPI();
     dispatch(addUserInfo(this.state));
-    addLocalStorage(token);
+    addLocalStorage('token', token);
     history.push('/game');
   };
 

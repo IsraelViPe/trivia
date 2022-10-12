@@ -1,3 +1,3 @@
-const addLocalStorage = (token) => localStorage.setItem('token', token);
+const addLocalStorage = (key, token) => localStorage.setItem(key, token);
 
 export default addLocalStorage;
