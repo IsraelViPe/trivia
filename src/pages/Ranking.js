@@ -33,7 +33,6 @@ class Ranking extends Component {
 
   render() {
     const { localRanking } = this.state;
-    console.log(localRanking);
     const rankingPosition = localRanking
       .sort((a, b) => b.score - a.score);
     return (

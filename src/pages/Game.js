@@ -10,7 +10,7 @@ class Game extends Component {
   state = {
     isLoading: true,
     timer: 30,
-    randomicAnswers: [],
+    // randomicAnswers: [],
     isBtnDisabled: false,
     id: 0,
   };
@@ -104,7 +104,7 @@ class Game extends Component {
   };
 
   render() {
-    const { isLoading, timer, isBtnDisabled, randomicAnswers, id } = this.state;
+    const { isLoading, timer, isBtnDisabled, id } = this.state;
     const { getApi, answered } = this.props;
     const api = getApi.results;
     const singleQuestion = api[id];
