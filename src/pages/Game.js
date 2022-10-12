@@ -112,13 +112,13 @@ class Game extends Component {
           </p>
           { !isLoading && (
             <TriviaComponent
-              handleClickAnswer={ this.handleClickAnswer }
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
               respostas={ randomicAnswers }
               isDisabled={ isBtnDisabled }
               nextClick={ this.nextQuestion }
+              timer={ timer }
             />
           )}
 
@@ -137,8 +137,13 @@ Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   dispatch: PropTypes.func.isRequired,
   getApi: PropTypes.shape({
-    results: PropTypes.shape({}).isRequired,
-    indexAnswer: PropTypes.shape({}).isRequired,
+    results: PropTypes.arrayOf(PropTypes.shape({
+      question: PropTypes.string,
+      category: PropTypes.string,
+      correct_answer: PropTypes.string,
+      incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+    })).isRequired,
+    indexAnswer: PropTypes.number.isRequired,
   }).isRequired,
 
 };
