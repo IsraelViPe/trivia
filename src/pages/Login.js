@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import logo from '../trivia.png';
-import fetchAPI from '../services/fetchAPI';
-import addLocalStorage from '../services/localStorage';
+import fetchAPI from '../redux/store/services/fetchAPI';
+import addLocalStorage from '../redux/store/services/localStorage';
 import { addUserInfo } from '../redux/actions';
 import '../App.css';
 
