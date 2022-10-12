@@ -4,19 +4,9 @@ import PropTypes from 'prop-types';
 const de = require('he');
 
 class TriviaComponent extends React.Component {
-  state = {
-    respondido: false,
-  };
-
-  handleClickAnswer = () => {
-    this.setState({
-      respondido: true,
-    });
-  };
-
   render() {
-    const { respostas, category, question, result, isDisabled, nextClick } = this.props;
-    const { respondido } = this.state;
+    const { respostas, category, question, result,
+      isDisabled, nextClick, answered, handleClickAnswer } = this.props;
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
@@ -26,8 +16,8 @@ class TriviaComponent extends React.Component {
             (resposta, iResp) => (resposta === result.correct_answer ? (
               <button
                 disabled={ isDisabled }
-                onClick={ this.handleClickAnswer }
-                className={ respondido ? 'correct-answer' : undefined }
+                onClick={ handleClickAnswer }
+                className={ answered ? 'correct-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid="correct-answer"
@@ -38,8 +28,8 @@ class TriviaComponent extends React.Component {
             ) : (
               <button
                 disabled={ isDisabled }
-                onClick={ this.handleClickAnswer }
-                className={ respondido ? 'wrong-answer' : undefined }
+                onClick={ handleClickAnswer }
+                className={ answered ? 'wrong-answer' : undefined }
                 key={ iResp }
                 type="button"
                 data-testid={ `wrong-answer-${iResp}` }
@@ -48,7 +38,7 @@ class TriviaComponent extends React.Component {
               </button>
             )),
           )}
-          {respondido
+          {answered
             && (
               <button
                 data-testid="btn-next"
@@ -65,6 +55,8 @@ class TriviaComponent extends React.Component {
   }
 }
 TriviaComponent.propTypes = {
+  handleClickAnswer: PropTypes.func.isRequired,
+  answered: PropTypes.bool.isRequired,
   respostas: PropTypes.arrayOf(PropTypes.string).isRequired,
   category: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,

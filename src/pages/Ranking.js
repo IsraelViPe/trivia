@@ -11,8 +11,15 @@ class Ranking extends Component {
 
   componentDidMount() {
     const { ranking } = this.props;
+    console.log(ranking);
+    const { name, score, gravatarEmail } = ranking;
+    const storageRanking = {
+      name,
+      score,
+      picture: md5(gravatarEmail).toString(),
+    };
     this.setState((prevState) => ({
-      localRanking: [...prevState.localRanking, ranking],
+      localRanking: [...prevState.localRanking, storageRanking],
     }), () => {
       const { localRanking } = this.state;
       addLocalStorage('ranking', JSON.stringify(localRanking));
@@ -26,14 +33,17 @@ class Ranking extends Component {
 
   render() {
     const { localRanking } = this.state;
-    const rankingPosition = localRanking.sort((a, b) => b.score - a.score);
+    console.log(localRanking);
+    const rankingPosition = localRanking
+      .sort((a, b) => b.score - a.score);
     return (
       <div>
-        { rankingPosition.map(({ name, gravatarEmail, score }, index) => (
+        <h1 data-testid="ranking-title">Ranking</h1>
+        { rankingPosition.map(({ name, picture, score }, index) => (
           <div key={ `${name}-${index}` }>
             <div>
               <img
-                src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
+                src={ `https://www.gravatar.com/avatar/${picture}` }
                 alt={ `foto de ${name}` }
               />
             </div>

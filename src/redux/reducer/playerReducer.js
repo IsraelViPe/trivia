@@ -1,10 +1,10 @@
 import { ADD_USER_INFO } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
-  name: 'israel vinicius Pereira',
-  assertions: '2',
-  score: 50,
-  gravatarEmail: 'tchelo92@gmail.com',
+  name: '',
+  assertions: '',
+  score: 30,
+  gravatarEmail: '',
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {

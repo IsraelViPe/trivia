@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import TriviaComponent from '../components/TriviaComponent';
 import { URL_TOKEN, requestAPI } from '../services/index';
-import { getRespApi } from '../redux/actions';
+import { getRespApi, clickAnswer, clickNext } from '../redux/actions';
 
 class Game extends Component {
   state = {
@@ -80,23 +80,32 @@ class Game extends Component {
 
       const respostas = [singleQuestion.correct_answer,
         ...singleQuestion.incorrect_answers];
-      this.setState({
-        randomicAnswers: this.randomizeAnswers(respostas),
-      });
+      // this.setState({
+      //   randomicAnswers: this.randomizeAnswers(respostas),
+      // });
+      return this.randomizeAnswers(respostas);
     }
   };
 
   nextQuestion = () => {
+    const lastQuestion = 4;
     const { id } = this.state;
-    console.log(id);
+    const { dispatch, history } = this.props;
     this.setState({
       id: id + 1,
     });
+    dispatch(clickNext());
+    if (id === lastQuestion) history.push('/feedback');
+  };
+
+  handleClickAnswer = () => {
+    const { dispatch } = this.props;
+    dispatch(clickAnswer());
   };
 
   render() {
     const { isLoading, timer, isBtnDisabled, randomicAnswers, id } = this.state;
-    const { getApi } = this.props;
+    const { getApi, answered } = this.props;
     const api = getApi.results;
     const singleQuestion = api[id];
 
@@ -113,10 +122,11 @@ class Game extends Component {
           { !isLoading && (
             <TriviaComponent
               handleClickAnswer={ this.handleClickAnswer }
+              answered={ answered }
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
-              respostas={ randomicAnswers }
+              respostas={ this.handleRenderTriviaComponent() }
               isDisabled={ isBtnDisabled }
               nextClick={ this.nextQuestion }
             />
@@ -130,9 +140,11 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   getApi: state.game,
   player: state.player,
+  answered: state.game.answered,
 });
 
 Game.propTypes = {
+  answered: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   dispatch: PropTypes.func.isRequired,
   getApi: PropTypes.shape({

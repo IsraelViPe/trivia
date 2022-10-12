@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
+import Feedback from './pages/Feedback';
 import Game from './pages/Game';
 import Login from './pages/Login';
 import Ranking from './pages/Ranking';
@@ -17,6 +18,7 @@ class App extends React.Component {
         <Route exact path="/game" component={ Game } />
         <Route exact path="/settings" component={ Settings } />
         <Route exact path="/ranking" component={ Ranking } />
+        <Route exact path="/feedback" component={ Feedback } />
       </Switch>
 
     );
