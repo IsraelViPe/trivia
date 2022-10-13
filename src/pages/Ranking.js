@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { restart } from '../redux/actions';
 
 class Ranking extends Component {
   state = {
@@ -25,8 +26,9 @@ class Ranking extends Component {
   }
 
   handleClickGoHome = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     history.push('/');
+    dispatch(restart());
   };
 
   render() {
@@ -61,6 +63,7 @@ class Ranking extends Component {
 }
 
 Ranking.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   ranking: PropTypes.shape({
     name: PropTypes.string.isRequired,
     gravatarEmail: PropTypes.string.isRequired,

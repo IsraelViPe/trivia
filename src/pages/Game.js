@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import TriviaComponent from '../components/TriviaComponent';
-import { URL_TOKEN, requestAPI } from '../services/index';
+import { requestAPI } from '../services/index';
 import { getRespApi, clickAnswer, clickNext,
   addScore, addAssertion } from '../redux/actions';
 import Timer from '../components/Timer';
@@ -31,17 +31,9 @@ class Game extends Component {
     });
   }
 
-  getToken = () => requestAPI(URL_TOKEN).then((data) => {
-    if (data.response_code === 0) {
-      return data.token;
-    }
-    const { history } = this.props;
-    history.push('/');
-  });
-
   getQuestions = async () => {
     const { dispatch } = this.props;
-    const token = await this.getToken();
+    const token = localStorage.getItem('token');
     const URL_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
 
     const response = await requestAPI(URL_QUESTIONS);
@@ -167,7 +159,7 @@ const mapStateToProps = (state) => ({
 });
 
 Game.propTypes = {
-  timer: PropTypes.number.isRequired,
+  timer: PropTypes.string.isRequired,
   isDesable: PropTypes.bool.isRequired,
   answered: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,

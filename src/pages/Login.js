@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import logo from '../trivia.png';
-import fetchAPI from '../redux/store/services/fetchAPI';
-import addLocalStorage from '../redux/store/services/localStorage';
+import addLocalStorage from '../services/localStorage';
 import { addUserInfo } from '../redux/actions';
 import '../App.css';
+import { requestAPI, URL_TOKEN } from '../services';
 
 class Login extends React.Component {
   state = {
@@ -32,7 +32,7 @@ class Login extends React.Component {
 
   handlePlay = async () => {
     const { history, dispatch } = this.props;
-    const { token } = await fetchAPI();
+    const { token } = await requestAPI(URL_TOKEN);
     dispatch(addUserInfo(this.state));
     addLocalStorage('token', token);
     history.push('/game');

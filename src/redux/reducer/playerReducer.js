@@ -1,4 +1,4 @@
-import { ADD_USER_INFO, ADD_SCORE, ADD_ASSERTION } from '../actions/actionTypes';
+import { ADD_USER_INFO, ADD_SCORE, ADD_ASSERTION, RESTART } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -26,6 +26,12 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     ...state,
     score: state.score + action.score,
   };
+  case RESTART:
+    return {
+      ...state,
+      score: 0,
+      assertions: 0,
+    };
 
   default:
     return state;

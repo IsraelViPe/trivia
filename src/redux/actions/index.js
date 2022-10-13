@@ -7,6 +7,7 @@ import {
   DESABLE_BUTTON,
   SAVE_TIMER,
   ADD_ASSERTION,
+  RESTART,
 } from './actionTypes';
 
 export const addUserInfo = (payload) => ({
@@ -38,7 +39,7 @@ export const addScore = (score) => ({
 });
 
 export const addAssertion = () => ({
-  Type: ADD_ASSERTION,
+  type: ADD_ASSERTION,
 });
 
 export const desableButton = () => ({
@@ -48,4 +49,8 @@ export const desableButton = () => ({
 export const saveTimer = (timer) => ({
   type: SAVE_TIMER,
   timer,
+});
+
+export const restart = () => ({
+  type: RESTART,
 });
