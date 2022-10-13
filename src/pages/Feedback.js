@@ -10,15 +10,16 @@ class Feedback extends Component {
   };
 
   render() {
-    const { acertos, score } = this.props;
+    const { assertions, score } = this.props;
+    console.log(assertions);
     const ACERTO_MIN = 3;
     return (
       <main>
         <Header />
-        {(acertos >= ACERTO_MIN) ? <p data-testid="feedback-text">Well Done!</p>
+        {(assertions >= ACERTO_MIN) ? <p data-testid="feedback-text">Well Done!</p>
           : <p data-testid="feedback-text">Could be better...</p>}
         <p data-testid="feedback-total-score">{score}</p>
-        <p data-testid="feedback-total-question">{Number(acertos)}</p>
+        <p data-testid="feedback-total-question">{assertions}</p>
         <div className="Feedback">
           <button
             type="button"
@@ -41,7 +42,7 @@ const mapStateToProps = ({ player: { assertions, score } }) => ({
 });
 
 Feedback.propTypes = {
-  acertos: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,

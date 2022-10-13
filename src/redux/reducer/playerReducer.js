@@ -1,11 +1,10 @@
-import { ADD_USER_INFO, ADD_SCORE, SET_ACERTO } from '../actions/actionTypes';
+import { ADD_USER_INFO, ADD_SCORE, ADD_ASSERTION } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
-  acerto: 0,
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
@@ -17,10 +16,10 @@ const playerReducer = (state = INITIAL_STATE, action) => {
       gravatarEmail: action.payload.email,
     };
 
-  case SET_ACERTO:
+  case ADD_ASSERTION:
     return {
       ...state,
-      acerto: action.acerto + state.acerto,
+      assertions: state.assertions + 1,
     };
 
   case ADD_SCORE: return {

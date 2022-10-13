@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import TriviaComponent from '../components/TriviaComponent';
 import { URL_TOKEN, requestAPI } from '../services/index';
-import { getRespApi, clickAnswer, clickNext } from '../redux/actions';
+import { getRespApi, clickAnswer, clickNext,
+  addScore, addAssertion } from '../redux/actions';
 import Timer from '../components/Timer';
 
 class Game extends Component {
@@ -33,7 +34,6 @@ class Game extends Component {
     const response = await requestAPI(URL_QUESTIONS);
     dispatch(getRespApi(response));
 
-    // this.setState(null, this.handleRenderTriviaComponent);
     if (response.response_code !== 0) {
       const { history } = this.props;
       localStorage.removeItem('token');
@@ -78,9 +78,35 @@ class Game extends Component {
     if (id === lastQuestion) history.push('/feedback');
   };
 
-  handleClickAnswer = () => {
-    const { dispatch } = this.props;
+  getDifficultyNumber = () => {
+    const { getApi: { results } } = this.props;
+    const { id } = this.state;
+    const { difficulty } = results[id];
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    switch (difficulty) {
+    case 'hard':
+      return hard;
+    case 'medium':
+      return medium;
+    case 'easy':
+      return easy;
+    default:
+      return 0;
+    }
+  };
+
+  handleClickAnswer = ({ target: { id } }) => {
+    const { dispatch, timer } = this.props;
     dispatch(clickAnswer());
+    const difficultyNumber = this.getDifficultyNumber();
+    const addition = 10;
+    const score = addition + (timer * difficultyNumber);
+    if (id === 'correct-answer') {
+      dispatch(addScore(score));
+      dispatch(addAssertion());
+    }
   };
 
   render() {
@@ -136,6 +162,7 @@ Game.propTypes = {
       category: PropTypes.string,
       correct_answer: PropTypes.string,
       incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+      difficulty: PropTypes.string.isRequired,
     })).isRequired,
     indexAnswer: PropTypes.number.isRequired,
   }).isRequired,

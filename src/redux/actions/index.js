@@ -6,6 +6,7 @@ import {
   CLICK_NEXT,
   DESABLE_BUTTON,
   SAVE_TIMER,
+  ADD_ASSERTION,
 } from './actionTypes';
 
 export const addUserInfo = (payload) => ({
@@ -34,6 +35,10 @@ export const clickNext = () => ({
 export const addScore = (score) => ({
   type: ADD_SCORE,
   score,
+});
+
+export const addAssertion = () => ({
+  Type: ADD_ASSERTION,
 });
 
 export const desableButton = () => ({

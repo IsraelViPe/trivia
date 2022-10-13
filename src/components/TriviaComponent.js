@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { addScore } from '../redux/actions';
 
 const de = require('he');
 
@@ -10,7 +9,6 @@ class TriviaComponent extends React.Component {
   render() {
     const { respostas, category, question, result,
       isDisabled, nextClick, answered, handleClickAnswer } = this.props;
-    console.log('renderizou o Trivia');
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
@@ -24,6 +22,7 @@ class TriviaComponent extends React.Component {
                 className={ answered ? 'correct-answer' : undefined }
                 key={ iResp }
                 type="button"
+                id="correct-answer"
                 data-testid="correct-answer"
               >
 
@@ -36,6 +35,7 @@ class TriviaComponent extends React.Component {
                 className={ answered ? 'wrong-answer' : undefined }
                 key={ iResp }
                 type="button"
+                id="wrong-answer"
                 data-testid={ `wrong-answer-${iResp}` }
               >
                 {de.decode(resposta)}
@@ -71,8 +71,6 @@ TriviaComponent.propTypes = {
   }).isRequired,
   isDisabled: PropTypes.bool.isRequired,
   nextClick: PropTypes.func.isRequired,
-  // timer: PropTypes.number.isRequired,
-  // dispatchScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
