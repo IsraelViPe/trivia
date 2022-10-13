@@ -12,10 +12,23 @@ class Game extends Component {
   state = {
     isLoading: true,
     id: 0,
+    randomAnswers: [],
   };
 
   async componentDidMount() {
     await this.getQuestions();
+    const { id } = this.state;
+    const { getApi } = this.props;
+
+    const api = getApi.results;
+    const singleQuestion = api[id];
+
+    const answers = [singleQuestion.correct_answer,
+      ...singleQuestion.incorrect_answers];
+    const randomAnswers = this.randomizeAnswers(answers);
+    this.setState({
+      randomAnswers,
+    });
   }
 
   getToken = () => requestAPI(URL_TOKEN).then((data) => {
@@ -60,10 +73,10 @@ class Game extends Component {
       const api = getApi.results;
       const singleQuestion = api[id];
 
-      const respostas = [singleQuestion.correct_answer,
+      const answers = [singleQuestion.correct_answer,
         ...singleQuestion.incorrect_answers];
-      const randomRespostas = this.randomizeAnswers(respostas);
-      return randomRespostas;
+      const randomAnswers = this.randomizeAnswers(answers);
+      return randomAnswers;
     }
   };
 
@@ -73,6 +86,10 @@ class Game extends Component {
     const { dispatch, history } = this.props;
     this.setState({
       id: id + 1,
+    }, () => {
+      this.setState({
+        randomAnswers: this.handleRenderTriviaComponent(),
+      });
     });
     dispatch(clickNext());
     if (id === lastQuestion) history.push('/feedback');
@@ -110,11 +127,10 @@ class Game extends Component {
   };
 
   render() {
-    const { isLoading, id } = this.state;
+    const { isLoading, id, randomAnswers } = this.state;
     const { getApi, answered, isDesable, timer } = this.props;
     const api = getApi.results;
     const singleQuestion = api[id];
-    const respostas = this.handleRenderTriviaComponent();
     return (
       <>
         <Header { ...this.props } />
@@ -130,7 +146,7 @@ class Game extends Component {
               question={ singleQuestion.question }
               category={ singleQuestion.category }
               result={ singleQuestion }
-              respostas={ respostas }
+              respostas={ randomAnswers }
               isDisabled={ isDesable }
               nextClick={ this.nextQuestion }
               timer={ timer }
