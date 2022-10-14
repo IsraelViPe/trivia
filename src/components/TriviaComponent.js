@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,49 +11,84 @@ class TriviaComponent extends React.Component {
     const { respostas, category, question, result,
       isDisabled, nextClick, answered, handleClickAnswer } = this.props;
     return (
-      <div>
-        <h2 data-testid="question-category">{category}</h2>
-        <p data-testid="question-text">{de.decode(question)}</p>
-        <div data-testid="answer-options">
-          {respostas.map(
-            (resposta, iResp) => (resposta === result.correct_answer ? (
-              <button
-                disabled={ isDisabled }
-                onClick={ handleClickAnswer }
-                className={ answered ? 'correct-answer' : undefined }
-                key={ iResp }
-                type="button"
-                id="correct-answer"
-                data-testid="correct-answer"
-              >
+      <div className="section">
+        <div className="columns ">
+          <div className="column ">
+            <div className="box has-background-link">
+              <div className="box has-background-link-light">
+                <p
+                  className="title is-2 has-text-grey-dark"
+                  data-testid="question-category"
+                >
+                  {category}
 
-                {de.decode(resposta)}
-              </button>
-            ) : (
-              <button
-                disabled={ isDisabled }
-                onClick={ handleClickAnswer }
-                className={ answered ? 'wrong-answer' : undefined }
-                key={ iResp }
-                type="button"
-                id="wrong-answer"
-                data-testid={ `wrong-answer-${iResp}` }
-              >
-                {de.decode(resposta)}
-              </button>
-            )),
-          )}
-          {answered
+                </p>
+              </div>
+              <div className="box has-background-link-light">
+                <p
+                  className="subtitle is-4 mt-1 has-text-weight-semibold"
+                  data-testid="question-text"
+                >
+                  {de.decode(question)}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="column" data-testid="answer-options">
+            <div className="box has-background-link">
+              {respostas.map(
+                (resposta, iResp) => (resposta === result.correct_answer ? (
+
+                  <div className="box has-background-link-light">
+                    <button
+                      disabled={ isDisabled }
+                      onClick={ handleClickAnswer }
+                      className={ answered
+                        ? 'correct-answer button is-large is-success is-fullwidth'
+                        : 'button is-large is-link is-fullwidth' }
+                      key={ iResp }
+                      type="button"
+                      id="correct-answer"
+                      data-testid="correct-answer"
+                    >
+                      {de.decode(resposta)}
+                    </button>
+                  </div>
+
+                ) : (
+
+                  <div className="box has-background-link-light">
+                    <button
+                      disabled={ isDisabled }
+                      onClick={ handleClickAnswer }
+                      className={ answered
+                        ? 'wrong-answer button is-large is-danger is-fullwidth'
+                        : 'button is-large is-link is-fullwidth' }
+                      key={ iResp }
+                      type="button"
+                      id="wrong-answer"
+                      data-testid={ `wrong-answer-${iResp}` }
+                    >
+                      {de.decode(resposta)}
+                    </button>
+                  </div>
+
+                )),
+              )}
+            </div>
+          </div>
+        </div>
+        {answered
             && (
               <button
+                className="button is-large is-fullwidth is-dark has-text-weight-bold"
                 data-testid="btn-next"
                 type="button"
                 onClick={ nextClick }
               >
-                Next
+                Next Question
               </button>
             )}
-        </div>
       </div>
 
     );

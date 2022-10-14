@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-max-depth */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -46,49 +48,66 @@ class Login extends React.Component {
   render() {
     const { name, email, isDisabled } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          <label htmlFor="name">
-            Nome
-            <input
-              onChange={ this.handleChange }
-              data-testid="input-player-name"
-              type="text"
-              name="name"
-              id="name"
-              value={ name }
-            />
-          </label>
-          <label htmlFor="email">
-            Email
-            <input
-              onChange={ this.handleChange }
-              data-testid="input-gravatar-email"
-              type="text"
-              name="email"
-              id="email"
-              value={ email }
-            />
-          </label>
-          <span>
-            <button
-              onClick={ this.handlePlay }
-              disabled={ isDisabled }
-              data-testid="btn-play"
-              type="button"
-            >
-              Play
-            </button>
-            <button
-              data-testid="btn-settings"
-              type="button"
-              onClick={ this.handleClickSettings }
-            >
-              Settings
-            </button>
-          </span>
-        </header>
+      <div className="container-login has-background-black-bis ">
+        <div className="box has-background-black-ter ">
+          <figure className="image">
+            <img src={ logo } className="App-logo" alt="logo" />
+          </figure>
+
+          <form className="box has-background-link mt-5">
+            <div className="field">
+              <label className="label" htmlFor="name">
+                Nome
+                <input
+                  className="input"
+                  onChange={ this.handleChange }
+                  data-testid="input-player-name"
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={ name }
+                />
+              </label>
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="email">
+                Email
+                <input
+                  className="input"
+                  onChange={ this.handleChange }
+                  data-testid="input-gravatar-email"
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={ email }
+                />
+              </label>
+            </div>
+            <div className=" field is-grouped ">
+              <p className="control">
+                <button
+                  className="button is-medium is-info is-rounded"
+                  onClick={ this.handlePlay }
+                  disabled={ isDisabled }
+                  data-testid="btn-play"
+                  type="button"
+                >
+                  Play
+                </button>
+              </p>
+              <p className="control">
+                <button
+                  className="button is-medium is-info is-rounded "
+                  data-testid="btn-settings"
+                  type="button"
+                  onClick={ this.handleClickSettings }
+                >
+                  Settings
+                </button>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

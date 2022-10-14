@@ -124,28 +124,27 @@ class Game extends Component {
     const api = getApi.results;
     const singleQuestion = api[id];
     return (
-      <>
-        <Header { ...this.props } />
-
-        <div>
-          <p>
+      <div className="container-game container">
+        <div className="box box-game has-background-grey-dark">
+          <Header { ...this.props } />
+          <div className="box has-background-black-ter">
             {!answered && !isLoading && <Timer />}
-          </p>
-          { !isLoading && (
-            <TriviaComponent
-              handleClickAnswer={ this.handleClickAnswer }
-              answered={ answered }
-              question={ singleQuestion.question }
-              category={ singleQuestion.category }
-              result={ singleQuestion }
-              respostas={ randomAnswers }
-              isDisabled={ isDesable }
-              nextClick={ this.nextQuestion }
-              timer={ timer }
-            />
-          )}
+            { !isLoading && (
+              <TriviaComponent
+                handleClickAnswer={ this.handleClickAnswer }
+                answered={ answered }
+                question={ singleQuestion.question }
+                category={ singleQuestion.category }
+                result={ singleQuestion }
+                respostas={ randomAnswers }
+                isDisabled={ isDesable }
+                nextClick={ this.nextQuestion }
+                timer={ timer }
+              />
+            )}
+          </div>
         </div>
-      </>
+      </div>
     );
   }
 }

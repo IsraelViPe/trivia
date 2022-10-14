@@ -37,8 +37,12 @@ class Timer extends Component {
   render() {
     const { timer } = this.state;
     return (
-      <div>
-        <p>{`${timer} segundos`}</p>
+      <div className="section">
+        <div className="box timer has-background-warning">
+          <p className="title is-1 has-text-centered has-text-grey-dark">
+            {`${timer}`}
+          </p>
+        </div>
       </div>
     );
   }

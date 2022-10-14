@@ -4,21 +4,37 @@ body {
   padding: 0;
 }
 
-.App {
-  text-align: center;
+.container-login {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.container-game {
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+}
+
+.timer {
+  margin: auto;
+  width: 100px;
+}
+
+.box-game {
+  margin-top: 100px;
+}
+
+.box-feedback {
+  margin-top: 100px;
 }
 
 .App-logo {
   height: 15vmin;
+  margin: auto;
+  max-width: 256px;
   pointer-events: none;
-}
-
-.red-border {
-  border: 1px solid red;
-}
-
-.green-border {
-  border: 1px solid green;
 }
 
 @media ( prefers-reduced-motion : no-preference ) {
@@ -28,27 +44,16 @@ body {
   }
 }
 
-.App-header {
-  align-items: center;
-  background-color: #282c34;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 .correct-answer {
   border: 3px solid rgb(6, 240, 15);
 }
 
 .wrong-answer {
   border : 3px solid red;
+}
+
+.header-fonts {
+  font-family: ' Archivo Black' , sans-serif;
 }
 
 @keyframes shake {

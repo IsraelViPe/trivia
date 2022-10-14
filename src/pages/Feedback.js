@@ -20,35 +20,72 @@ class Feedback extends Component {
     const { assertions, score } = this.props;
     const ACERTO_MIN = 3;
     return (
-      <main>
-        <Header />
-        {(assertions >= ACERTO_MIN) ? <p data-testid="feedback-text">Well Done!</p>
-          : <span data-testid="feedback-text">Could be better...</span>}
-        <ul>
-          <li data-testid="feedback-total-score">{`Pontos ${score}`}</li>
-          <li data-testid="feedback-total-question">
-            {' '}
-            {`Respostas certas ${assertions}`}
-          </li>
-        </ul>
+      <main className="container">
+        <div className="box box-feedback has-background-grey-dark">
+          <Header />
+          {
+            (assertions >= ACERTO_MIN)
+              ? (
+                <section className="section">
+                  <div className="box">
+                    <span data-testid="feedback-text">Well Done!</span>
+                  </div>
+                </section>
+              )
+              : (
+                <div className="box has-text-centered has-background-link">
+                  <span
+                    className="is-size-1 has-text-weight-semibold has-text-warning"
+                    data-testid="feedback-text"
+                  >
+                    Could be better...
 
-        <div className="Feedback">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-            id="btn-ranking"
-            onClick={ this.handleClick }
-          >
-            Ranking
-          </button>
-          <button
-            type="button"
-            data-testid="btn-play-again"
-            id="btn-play-again"
-            onClick={ this.handleClick }
-          >
-            Play Again
-          </button>
+                  </span>
+                </div>
+              )
+          }
+          <div className="box has-text-centered has-background-link has-text-warning">
+            <ul>
+              <li
+                className="is-size-3 has-text-weight-semibold"
+                data-testid="feedback-total-score"
+              >
+                {`${score} pontos`}
+
+              </li>
+              <li
+                className="is-size-3 has-text-weight-semibold"
+                data-testid="feedback-total-question"
+              >
+                {' '}
+                {`${assertions} respostas certas`}
+              </li>
+            </ul>
+          </div>
+          <div className=" field is-grouped ">
+            <p className="control">
+              <button
+                className="button is-large is-dark has-text-weight-bold"
+                type="button"
+                data-testid="btn-ranking"
+                id="btn-ranking"
+                onClick={ this.handleClick }
+              >
+                Ranking
+              </button>
+            </p>
+            <p className="control">
+              <button
+                className="button is-large is-dark has-text-weight-bold"
+                type="button"
+                data-testid="btn-play-again"
+                id="btn-play-again"
+                onClick={ this.handleClick }
+              >
+                Play Again
+              </button>
+            </p>
+          </div>
         </div>
 
       </main>
