@@ -8,6 +8,7 @@ import {
   SAVE_TIMER,
   ADD_ASSERTION,
   RESTART,
+  CHANGE_SETTINGS,
 } from './actionTypes';
 
 export const addUserInfo = (payload) => ({
@@ -53,4 +54,9 @@ export const saveTimer = (timer) => ({
 
 export const restart = () => ({
   type: RESTART,
+});
+
+export const changeSettings = (payload) => ({
+  type: CHANGE_SETTINGS,
+  payload,
 });

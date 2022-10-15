@@ -1,6 +1,7 @@
 import { REQ_API, CLICK_ANSWER, CLICK_NEXT,
   DESABLE_BUTTON,
-  SAVE_TIMER } from '../actions/actionTypes';
+  SAVE_TIMER,
+  CHANGE_SETTINGS } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   results: [],
@@ -9,6 +10,7 @@ const INITIAL_STATE = {
   answered: false,
   timer: '',
   isDesable: false,
+  settings: [],
 };
 
 const gameReducer = (state = INITIAL_STATE, action) => {
@@ -18,7 +20,8 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   }
   case CLICK_ANSWER:
     return {
-      ...state, answered: true,
+      ...state,
+      answered: true,
     };
   case CLICK_NEXT:
     return {
@@ -33,6 +36,10 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   case SAVE_TIMER:
     return {
       ...state, timer: action.timer,
+    };
+  case CHANGE_SETTINGS:
+    return {
+      ...state, settings: action.payload,
     };
   default:
     return state;

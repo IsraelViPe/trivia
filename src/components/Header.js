@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import logo from '../trivia.png';
 
 class Header extends Component {
   render() {
@@ -12,7 +13,7 @@ class Header extends Component {
       <section className="section">
         <div className="card has-background-warning">
           <div className="card-content">
-            <div className="media ">
+            <div className="media is-align-items-center">
               <div className="media-left">
                 <figure className="image is-128x128">
                   <img
@@ -39,6 +40,11 @@ class Header extends Component {
 
                   </span>
                 </div>
+              </div>
+              <div className="media-content">
+                <figure className="image">
+                  <img src={ logo } className="App-logo" alt="logo" />
+                </figure>
               </div>
             </div>
           </div>

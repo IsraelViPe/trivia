@@ -58,7 +58,8 @@ class Feedback extends Component {
                 data-testid="feedback-total-question"
               >
                 {' '}
-                {`${assertions} respostas certas`}
+                { assertions > 1 ? `${assertions} respostas certas`
+                  : `${assertions} resposta certa`}
               </li>
             </ul>
           </div>

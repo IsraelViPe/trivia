@@ -31,10 +31,27 @@ class Game extends Component {
     });
   }
 
+  URLsCustomize = (token) => {
+    const { settings } = this.props;
+    const defaultURL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+    const chosenSettings = settings
+      .filter(({ category, difficulty, type }) => category || difficulty || type);
+    if (chosenSettings.lenght !== 0) {
+      const urlFragments = [];
+      chosenSettings.forEach((element) => {
+        const fragment = `&${Object.keys(element)}=${Object.values(element)}`;
+        urlFragments.push(fragment);
+      });
+      const customizedURL = `https://opentdb.com/api.php?amount=5${urlFragments.join('')}&token=`;
+      return customizedURL;
+    }
+    return defaultURL;
+  };
+
   getQuestions = async () => {
     const { dispatch } = this.props;
     const token = localStorage.getItem('token');
-    const URL_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
+    const URL_QUESTIONS = this.URLsCustomize(token);
 
     const response = await requestAPI(URL_QUESTIONS);
     dispatch(getRespApi(response));
@@ -107,12 +124,12 @@ class Game extends Component {
   };
 
   handleClickAnswer = ({ target: { id } }) => {
-    const { dispatch, timer } = this.props;
+    const { dispatch, timer, answered } = this.props;
     dispatch(clickAnswer());
     const difficultyNumber = this.getDifficultyNumber();
     const addition = 10;
     const score = addition + (timer * difficultyNumber);
-    if (id === 'correct-answer') {
+    if (id === 'correct-answer' && !answered) {
       dispatch(addScore(score));
       dispatch(addAssertion());
     }
@@ -155,10 +172,16 @@ const mapStateToProps = (state) => ({
   answered: state.game.answered,
   isDesable: state.game.isDesable,
   timer: state.game.timer,
+  settings: state.game.settings,
 });
 
 Game.propTypes = {
-  timer: PropTypes.string.isRequired,
+  settings: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+  })).isRequired,
+  timer: PropTypes.number.isRequired,
   isDesable: PropTypes.bool.isRequired,
   answered: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,

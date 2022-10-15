@@ -45,7 +45,7 @@ class TriviaComponent extends React.Component {
                       onClick={ handleClickAnswer }
                       className={ answered
                         ? 'correct-answer button is-large is-success is-fullwidth'
-                        : 'button is-large is-link is-fullwidth' }
+                        : 'button is-large is-info is-fullwidth' }
                       key={ iResp }
                       type="button"
                       id="correct-answer"
@@ -63,7 +63,7 @@ class TriviaComponent extends React.Component {
                       onClick={ handleClickAnswer }
                       className={ answered
                         ? 'wrong-answer button is-large is-danger is-fullwidth'
-                        : 'button is-large is-link is-fullwidth' }
+                        : 'button is-large is-info is-fullwidth' }
                       key={ iResp }
                       type="button"
                       id="wrong-answer"

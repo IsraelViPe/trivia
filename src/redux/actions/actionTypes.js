@@ -12,3 +12,5 @@ export const ADD_ASSERTION = 'ADD_ASSERTION';
 export const DESABLE_BUTTON = 'DESABLE_BUTTON';
 export const SAVE_TIMER = 'SAVE_TIMER';
 export const RESTART = 'RESTART';
+
+export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
