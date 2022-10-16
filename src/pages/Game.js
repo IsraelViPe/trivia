@@ -44,7 +44,7 @@ class Game extends Component {
         urlFragments.push(fragment);
       });
       const customizedURL = `https://opentdb.com/api.php?amount=5${urlFragments.join('')}&token=`;
-      console.log(customizedURL)
+      console.log(customizedURL);
       return customizedURL;
     }
     return defaultURL;
@@ -57,12 +57,14 @@ class Game extends Component {
     console.log(URL_QUESTIONS);
 
     const response = await requestAPI(URL_QUESTIONS);
+    console.log(response);
     dispatch(getRespApi(response));
 
     if (response.response_code !== 0) {
       const { history } = this.props;
       localStorage.removeItem('token');
       history.push('/');
+      alert('Sua busca não retornou questões, por favor altere as configurações de busca em Settings');
     }
 
     this.setState({
@@ -149,7 +151,7 @@ class Game extends Component {
           <Header { ...this.props } />
           <div className="box has-background-black-ter">
             { isLoading && <Loading />}
-            {!answered && !isLoading && <Timer />}
+            <Timer />
             { !isLoading && (
               <TriviaComponent
                 handleClickAnswer={ this.handleClickAnswer }

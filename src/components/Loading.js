@@ -6,7 +6,7 @@ export default class Loading extends Component {
     return (
       <div className="container-loading">
         <figure className="image">
-          <img src={ logo } className="logo-loading" alt="logo" />
+          <img src={ logo } className="logo" alt="logo" />
         </figure>
       </div>
     );

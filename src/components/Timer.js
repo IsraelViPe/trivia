@@ -19,9 +19,11 @@ class Timer extends Component {
   }
 
   componentDidUpdate() {
-    const { dispatch } = this.props;
+    const { dispatch, answered } = this.props;
     const { timer } = this.state;
-    if (timer === 1) {
+    if (timer === 0 || answered) {
+      clearInterval(this.interval);
+      dispatch(saveTimer(timer));
       dispatch(clickAnswer());
       dispatch(desableButton());
     }
@@ -30,7 +32,7 @@ class Timer extends Component {
   componentWillUnmount() {
     const { timer } = this.state;
     const { dispatch } = this.props;
-    dispatch(saveTimer(timer));
+    
     clearInterval(this.interval);
   }
 
@@ -53,6 +55,7 @@ const mapStateToProps = (state) => ({
 });
 
 Timer.propTypes = {
+  answered: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

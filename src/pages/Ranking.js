@@ -26,10 +26,13 @@ class Ranking extends Component {
     });
   }
 
-  handleClickGoHome = () => {
+  handleClick = ({ target: { id } }) => {
     const { history, dispatch } = this.props;
-    history.push('/');
-    dispatch(restart());
+    if (id === 'btn-go-home') {
+      history.push('/');
+      dispatch(restart());
+    }
+    if (id === 'btn-play-again') { history.push('/game'); }
   };
 
   render() {
@@ -88,14 +91,30 @@ class Ranking extends Component {
           </section>
         ))}
         <div className="section">
-          <button
-            className="button is-large is-dark has-text-weight-bold"
-            type="button"
-            data-testid="btn-go-home"
-            onClick={ this.handleClickGoHome }
-          >
-            Inicio
-          </button>
+          <div className="field is-grouped ">
+            <p className="control">
+              <button
+                className="button is-large is-dark has-text-weight-bold"
+                type="button"
+                id="btn-go-home"
+                data-testid="btn-go-home"
+                onClick={ this.handleClick }
+              >
+                Home
+              </button>
+            </p>
+            <p className="control">
+              <button
+                className="button is-large is-dark has-text-weight-bold"
+                type="button"
+                data-testid="btn-play-again"
+                id="btn-play-again"
+                onClick={ this.handleClick }
+              >
+                Play Again
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     );
