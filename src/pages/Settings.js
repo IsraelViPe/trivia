@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { changeSettings } from '../redux/actions';
 import { requestAPI } from '../services';
+import Loading from '../components/Loading';
 
 class Settings extends Component {
   state = {
@@ -43,6 +44,7 @@ class Settings extends Component {
 
   render() {
     const { categoryList, isLoading } = this.state;
+    if (isLoading) return <Loading />;
     return (
       <div className="container">
         <div className="box mt-6 has-background-grey-dark">

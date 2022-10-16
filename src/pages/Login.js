@@ -35,6 +35,7 @@ class Login extends React.Component {
   handlePlay = async () => {
     const { history, dispatch } = this.props;
     const { token } = await requestAPI(URL_TOKEN);
+    console.log(token);
     dispatch(addUserInfo(this.state));
     addLocalStorage('token', token);
     history.push('/game');

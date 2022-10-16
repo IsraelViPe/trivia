@@ -7,6 +7,7 @@ import { requestAPI } from '../services/index';
 import { getRespApi, clickAnswer, clickNext,
   addScore, addAssertion } from '../redux/actions';
 import Timer from '../components/Timer';
+import Loading from '../components/Loading';
 
 class Game extends Component {
   state = {
@@ -43,6 +44,7 @@ class Game extends Component {
         urlFragments.push(fragment);
       });
       const customizedURL = `https://opentdb.com/api.php?amount=5${urlFragments.join('')}&token=`;
+      console.log(customizedURL)
       return customizedURL;
     }
     return defaultURL;
@@ -52,6 +54,7 @@ class Game extends Component {
     const { dispatch } = this.props;
     const token = localStorage.getItem('token');
     const URL_QUESTIONS = this.URLsCustomize(token);
+    console.log(URL_QUESTIONS);
 
     const response = await requestAPI(URL_QUESTIONS);
     dispatch(getRespApi(response));
@@ -145,6 +148,7 @@ class Game extends Component {
         <div className="box box-game has-background-grey-dark">
           <Header { ...this.props } />
           <div className="box has-background-black-ter">
+            { isLoading && <Loading />}
             {!answered && !isLoading && <Timer />}
             { !isLoading && (
               <TriviaComponent

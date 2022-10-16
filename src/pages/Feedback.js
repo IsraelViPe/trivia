@@ -11,8 +11,8 @@ class Feedback extends Component {
       history.push('/ranking');
     }
     if (id === 'btn-play-again') {
-      dispatch(restart());
-      history.push('/');
+      // dispatch(restart());
+      history.push('/game');
     }
   };
 
@@ -27,8 +27,14 @@ class Feedback extends Component {
             (assertions >= ACERTO_MIN)
               ? (
                 <section className="section">
-                  <div className="box">
-                    <span data-testid="feedback-text">Well Done!</span>
+                  <div className="box has-text-centered has-background-link">
+                    <span
+                      className="is-size-1 has-text-weight-semibold has-text-warning"
+                      data-testid="feedback-text"
+                    >
+                      Well Done!
+
+                    </span>
                   </div>
                 </section>
               )
