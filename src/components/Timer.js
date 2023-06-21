@@ -11,11 +11,7 @@ class Timer extends Component {
   };
 
   componentDidMount() {
-    this.interval = setInterval(() => {
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1,
-      }));
-    }, miliSecond);
+    this.triggerTimer();
   }
 
   componentDidUpdate() {
@@ -32,9 +28,22 @@ class Timer extends Component {
   componentWillUnmount() {
     const { timer } = this.state;
     const { dispatch } = this.props;
-    
+
     clearInterval(this.interval);
+    console.log('desmontar');
   }
+
+  triggerTimer = () => {
+    this.setState({
+      timer: 30,
+    }, () => {
+      this.interval = setInterval(() => {
+        this.setState((prevState) => ({
+          timer: prevState.timer - 1,
+        }));
+      }, miliSecond);
+    });
+  };
 
   render() {
     const { timer } = this.state;
